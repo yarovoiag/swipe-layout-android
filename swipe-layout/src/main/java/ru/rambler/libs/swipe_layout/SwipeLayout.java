@@ -105,8 +105,9 @@ public class SwipeLayout extends ViewGroup {
         ObjectAnimator animator = resetAnimator.get();
         if (animator != null) {
             resetAnimator.clear();
-            if (animator.isRunning())
+            if (animator.isRunning()) {
                 animator.end();
+            }
         }
     }
 
@@ -233,10 +234,11 @@ public class SwipeLayout extends ViewGroup {
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            if (dx > 0)
+            if (dx > 0) {
                 return clampMoveRight(child, left);
-            else
+            } else {
                 return clampMoveLeft(child, left);
+            }
         }
 
         @Override
@@ -351,7 +353,7 @@ public class SwipeLayout extends ViewGroup {
 
         private int clampMoveRight(View child, int left) {
             if (leftView == null) {
-                return 0;
+                return child == centerView ? Math.min(left, 0) : Math.min(left, getWidth());
             }
 
             LayoutParams lp = getLayoutParams(leftView);
@@ -369,7 +371,7 @@ public class SwipeLayout extends ViewGroup {
 
         private int clampMoveLeft(View child, int left) {
             if (rightView == null) {
-                return 0;
+                return child == centerView ? Math.max(left, 0) : Math.max(left, -child.getWidth());
             }
 
             LayoutParams lp = getLayoutParams(rightView);
@@ -386,10 +388,6 @@ public class SwipeLayout extends ViewGroup {
         }
 
         private boolean onMoveRightReleased(View child, int dx, float xvel) {
-            if (leftView == null) {
-                startScrollAnimation(child, initLeft, false, true);
-                return true;
-            }
 
             if (xvel > velocityThreshold) {
                 int left = centerView.getLeft() < 0 ? child.getLeft() - centerView.getLeft() : getWidth();
@@ -397,6 +395,10 @@ public class SwipeLayout extends ViewGroup {
                 return true;
             }
 
+            if (leftView == null) {
+                startScrollAnimation(child, child.getLeft() - centerView.getLeft(), false, true);
+                return true;
+            }
 
             LayoutParams lp = getLayoutParams(leftView);
 

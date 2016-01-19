@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ru.rambler.swipe_layout.MainActivity">
+
+    <ru.rambler.libs.swipe_layout.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#999">
+
+        </LinearLayout>
+
+        <!--&lt;!&ndash;LEFT&ndash;&gt;-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="#f00"-->
+        <!--app:bring_to_clamp="100dp"-->
+        <!--app:clamp="parent"-->
+        <!--app:gravity="left"-->
+        <!--app:sticky="self">-->
+
+        <!--</LinearLayout>-->
+
+        <!--RIGHT-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00f"
+            app:bring_to_clamp="150dp"
+            app:clamp="parent"
+            app:gravity="right"
+            app:sticky="100dp">
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#444" />
+
+        </LinearLayout>
+    </ru.rambler.libs.swipe_layout.SwipeLayout>
+
+    <!--2-->
+    <ru.rambler.libs.swipe_layout.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#999">
+
+        </LinearLayout>
+
+        <!--RIGHT-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00f"
+            app:bring_to_clamp="150dp"
+            app:clamp="parent"
+            app:gravity="right"
+            app:sticky="100dp">
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#444" />
+
+        </LinearLayout>
+    </ru.rambler.libs.swipe_layout.SwipeLayout>
+
+    <!--3-->
+    <ru.rambler.libs.swipe_layout.SwipeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#999">
+
+        </LinearLayout>
+
+        <!--RIGHT-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00f"
+            app:bring_to_clamp="150dp"
+            app:clamp="parent"
+            app:gravity="right"
+            app:sticky="100dp"
+            app:sticky_sensitivity="0.5">
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#444" />
+
+        </LinearLayout>
+    </ru.rambler.libs.swipe_layout.SwipeLayout>
+</LinearLayout>
