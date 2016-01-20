@@ -132,7 +132,21 @@ public class SwipeLayout extends ViewGroup {
         int maxHeight = 0;
 
         // Find out how big everyone wants to be
-        measureChildren(widthMeasureSpec, heightMeasureSpec);
+        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) {
+            measureChildren(widthMeasureSpec, heightMeasureSpec);
+        } else {
+            //find a child with biggest height
+            for (int i = 0; i < count; i++) {
+                View child = getChildAt(i);
+                measureChild(child, widthMeasureSpec, heightMeasureSpec);
+                maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
+            }
+
+            if(maxHeight > 0) {
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.EXACTLY);
+                measureChildren(widthMeasureSpec, heightMeasureSpec);
+            }
+        }
 
         // Find rightmost and bottom-most child
         for (int i = 0; i < count; i++) {
