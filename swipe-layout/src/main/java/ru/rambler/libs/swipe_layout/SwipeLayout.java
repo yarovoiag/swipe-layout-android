@@ -3,8 +3,8 @@ package ru.rambler.libs.swipe_layout;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -32,7 +32,7 @@ public class SwipeLayout extends ViewGroup {
     private float velocityThreshold;
     private float touchSlop;
     private OnSwipeListener swipeListener;
-    private boolean enableSwipeRefreshLayoutOnUp;
+    private boolean enableNestedScrollingParentOnUp;
     private WeakReference<ObjectAnimator> resetAnimator;
 
     private static final int TOUCH_STATE_WAIT = 0;
@@ -142,7 +142,7 @@ public class SwipeLayout extends ViewGroup {
                 maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
             }
 
-            if(maxHeight > 0) {
+            if (maxHeight > 0) {
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.EXACTLY);
                 measureChildren(widthMeasureSpec, heightMeasureSpec);
             }
@@ -518,10 +518,10 @@ public class SwipeLayout extends ViewGroup {
         }
     }
 
-    private View findSwipeRefreshLayout() {
+    private View findNestedScrollingParent() {
         ViewParent parent = getParent();
         while (parent != null) {
-            if (parent instanceof SwipeRefreshLayout)
+            if (parent instanceof NestedScrollingParent)
                 return (View) parent;
 
             parent = parent.getParent();
@@ -554,9 +554,9 @@ public class SwipeLayout extends ViewGroup {
                         if (touchState == TOUCH_STATE_SWIPE) {
                             requestDisallowInterceptTouchEvent(true);
 
-                            View hack = findSwipeRefreshLayout();
+                            View hack = findNestedScrollingParent();
                             if (hack != null) {
-                                enableSwipeRefreshLayoutOnUp = hack.isEnabled();
+                                enableNestedScrollingParentOnUp = hack.isEnabled();
                                 hack.setEnabled(false);
                             }
 
@@ -571,7 +571,7 @@ public class SwipeLayout extends ViewGroup {
             case MotionEvent.ACTION_UP:
                 if (touchState == TOUCH_STATE_SWIPE) {
                     View hack;
-                    if (enableSwipeRefreshLayoutOnUp && (hack = findSwipeRefreshLayout()) != null) {
+                    if (enableNestedScrollingParentOnUp && (hack = findNestedScrollingParent()) != null) {
                         hack.setEnabled(true);
                     }
                     requestDisallowInterceptTouchEvent(false);
