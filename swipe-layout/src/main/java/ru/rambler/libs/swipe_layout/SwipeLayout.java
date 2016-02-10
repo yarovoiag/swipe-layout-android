@@ -19,6 +19,8 @@ import android.view.animation.AccelerateInterpolator;
 import com.rds.swipelayout.R;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class SwipeLayout extends ViewGroup {
 
@@ -32,8 +34,8 @@ public class SwipeLayout extends ViewGroup {
     private float velocityThreshold;
     private float touchSlop;
     private OnSwipeListener swipeListener;
-    private boolean enableNestedScrollingParentOnUp;
     private WeakReference<ObjectAnimator> resetAnimator;
+    private final Map<View, Boolean> hackedParents = new WeakHashMap<>();
 
     private static final int TOUCH_STATE_WAIT = 0;
     private static final int TOUCH_STATE_SWIPE = 1;
@@ -518,15 +520,24 @@ public class SwipeLayout extends ViewGroup {
         }
     }
 
-    private View findNestedScrollingParent() {
+    private void hackParents() {
         ViewParent parent = getParent();
         while (parent != null) {
-            if (parent instanceof NestedScrollingParent)
-                return (View) parent;
-
+            if (parent instanceof NestedScrollingParent) {
+                View view = (View) parent;
+                hackedParents.put(view, view.isEnabled());
+            }
             parent = parent.getParent();
         }
-        return null;
+    }
+
+    private void unHackParents() {
+        for (Map.Entry<View, Boolean> entry : hackedParents.entrySet()) {
+            View view = entry.getKey();
+            if (view != null) {
+                view.setEnabled(entry.getValue());
+            }
+        }
     }
 
     @Override
@@ -554,11 +565,7 @@ public class SwipeLayout extends ViewGroup {
                         if (touchState == TOUCH_STATE_SWIPE) {
                             requestDisallowInterceptTouchEvent(true);
 
-                            View hack = findNestedScrollingParent();
-                            if (hack != null) {
-                                enableNestedScrollingParentOnUp = hack.isEnabled();
-                                hack.setEnabled(false);
-                            }
+                            hackParents();
 
                             if (swipeListener != null)
                                 swipeListener.onBeginSwipe(this, event.getX() > touchX);
@@ -570,10 +577,7 @@ public class SwipeLayout extends ViewGroup {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 if (touchState == TOUCH_STATE_SWIPE) {
-                    View hack;
-                    if (enableNestedScrollingParentOnUp && (hack = findNestedScrollingParent()) != null) {
-                        hack.setEnabled(true);
-                    }
+                    unHackParents();
                     requestDisallowInterceptTouchEvent(false);
                 }
                 touchState = TOUCH_STATE_WAIT;
