@@ -1,16 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-publication'
 
-buildscript {
-    repositories {
-        maven {
-            url 'http://jenkins01.mobile.rambler.ru:7700/nexus/content/repositories/rambler-internal/'
-        }
-    }
-    dependencies {
-        classpath 'ru.rambler.android:AndroidPublication:0.4.0'
-    }
-}
 
 android {
     compileSdkVersion 23
@@ -32,6 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
 }
