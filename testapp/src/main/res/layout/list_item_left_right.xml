@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.rambler.libs.swipe_layout.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SwipeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/center_bg">
+
+        <TextView
+            android:id="@+id/text_view_pos"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            tools:text="#1" />
+
+        <TextView
+            style="@style/CenterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Left &amp; Right" />
+
+    </LinearLayout>
+
+    <!--RIGHT-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/right_bg"
+        android:orientation="horizontal"
+        app:bring_to_clamp="150dp"
+        app:clamp="self"
+        app:gravity="right"
+        app:sticky="100dp">
+
+        <TextView
+            style="@style/RightTextView"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#1000"
+            android:text="sticky=100dp" />
+
+        <TextView
+            style="@style/RightTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="bring_to_clamp=150dp; clamp=self; width=match_parent" />
+
+    </LinearLayout>
+
+    <!--LEFT-->
+    <FrameLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:background="@color/left_bg"
+        app:bring_to_clamp="100dp"
+        app:clamp="self"
+        app:gravity="left"
+        app:sticky="none">
+
+        <TextView
+            style="@style/LeftTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="bring_to_clamp=100dp; clamp=self; width=200dp; sticky=none" />
+    </FrameLayout>
+</ru.rambler.libs.swipe_layout.SwipeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.rambler.libs.swipe_layout.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SwipeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:background="@color/center_bg">
+
+        <TextView
+            android:id="@+id/text_view_pos"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            tools:text="#1" />
+
+        <TextView
+            style="@style/CenterTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Only Right" />
+
+    </LinearLayout>
+
+    <!--RIGHT-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/right_bg"
+        app:bring_to_clamp="200dp"
+        app:clamp="parent"
+        app:gravity="right"
+        app:sticky="170dp">
+
+        <TextView
+            style="@style/RightTextView"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:background="#1000"
+            android:text="sticky=170dp" />
+
+        <TextView
+            style="@style/RightTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="bring_to_clamp=200dp; clamp=self; width=match_parent" />
+
+
+    </LinearLayout>
+</ru.rambler.libs.swipe_layout.SwipeLayout>
