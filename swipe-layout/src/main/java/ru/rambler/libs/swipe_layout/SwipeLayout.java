@@ -446,14 +446,14 @@ public class SwipeLayout extends ViewGroup {
         }
 
         private boolean onMoveLeftReleased(View child, int dx, float xvel) {
-            if (rightView == null) {
-                startScrollAnimation(child, initLeft, false, false);
-                return true;
-            }
-
             if (-xvel > velocityThreshold) {
                 int left = centerView.getLeft() > 0 ? child.getLeft() - centerView.getLeft() : -getWidth();
                 startScrollAnimation(child, clampMoveLeft(child, left), true, false);
+                return true;
+            }
+
+            if (rightView == null) {
+                startScrollAnimation(child, child.getLeft() - centerView.getLeft(), false, false);
                 return true;
             }
 
