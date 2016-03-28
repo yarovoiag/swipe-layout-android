@@ -5,7 +5,6 @@ Flexible Android Widget
 ![sample](https://github.com/rambler-digital-solutions/swipe-layout-android/blob/master/rambler.mail.gif?raw=true)
 
 ## Download
---------
 
 Download via Gradle:
 ```groovy
@@ -22,7 +21,7 @@ or Maven:
 ```
 
 ## License
---------
+
     Licensed under the Apache License, Version 2.0 (the "License");
     
         http://www.apache.org/licenses/LICENSE-2.0
