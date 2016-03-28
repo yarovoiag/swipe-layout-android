@@ -22,7 +22,9 @@ or Maven:
 
 ## Usage
 
-**Swipe Layout** may contain up to 3 children with **left**, **right** and **center** gravity attributes:
+**Swipe Layout** may contain up to 3 children with **left**, **right** or **center** gravity attributes.
+
+Full list of widget attributes can be found [here](https://github.com/rambler-digital-solutions/swipe-layout-android/blob/develop/swipe-layout/src/main/res/values/attrs.xml).
 
 ```xml
 <ru.rambler.libs.swipe_layout.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,8 +65,6 @@ or Maven:
     </FrameLayout>
 </ru.rambler.libs.swipe_layout.SwipeLayout>
 ```
-
-[Full list of widget attributes](https://github.com/rambler-digital-solutions/swipe-layout-android/blob/develop/swipe-layout/src/main/res/values/attrs.xml)
 
 ## License
 
