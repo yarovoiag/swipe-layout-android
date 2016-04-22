@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import ru.rambler.libs.swipe_layout.SwipeLayout;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -49,6 +51,25 @@ public class MainActivity extends AppCompatActivity {
                     throw new IllegalArgumentException();
             }
             View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+            final ViewHolder viewHolder = new ViewHolder(itemView);
+
+            View.OnClickListener onClick = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewHolder.swipeLayout.animateReset();
+                }
+            };
+
+            if (viewHolder.leftView != null) {
+                viewHolder.leftView.setClickable(true);
+                viewHolder.leftView.setOnClickListener(onClick);
+            }
+
+            if (viewHolder.rightView != null) {
+                viewHolder.rightView.setClickable(true);
+                viewHolder.rightView.setOnClickListener(onClick);
+            }
+
             return new ViewHolder(itemView);
         }
 
@@ -65,10 +86,16 @@ public class MainActivity extends AppCompatActivity {
         static class ViewHolder extends RecyclerView.ViewHolder {
 
             private final TextView textViewPos;
+            private final SwipeLayout swipeLayout;
+            private final View rightView;
+            private final View leftView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 textViewPos = (TextView) itemView.findViewById(R.id.text_view_pos);
+                swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe_layout);
+                rightView = itemView.findViewById(R.id.right_view);
+                leftView = itemView.findViewById(R.id.left_view);
             }
         }
     }

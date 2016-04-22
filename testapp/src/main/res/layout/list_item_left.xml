@@ -2,6 +2,7 @@
 <ru.rambler.libs.swipe_layout.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_layout"
     style="@style/SwipeLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_height">
@@ -28,6 +29,7 @@
 
     <!--LEFT-->
     <LinearLayout
+        android:id="@+id/left_view"
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:background="@color/left_bg"
