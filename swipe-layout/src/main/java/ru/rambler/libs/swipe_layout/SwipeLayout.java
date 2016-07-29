@@ -280,8 +280,9 @@ public class SwipeLayout extends ViewGroup {
                 handled = xvel <= 0 ? onMoveLeftReleased(releasedChild, dx, xvel) : onMoveRightReleased(releasedChild, dx, xvel);
             }
 
-            if (!handled)
+            if (!handled) {
                 startScrollAnimation(releasedChild, releasedChild.getLeft() - centerView.getLeft(), false, dx > 0);
+            }
         }
 
         private boolean leftViewClampReached(LayoutParams leftViewLP) {
@@ -407,7 +408,8 @@ public class SwipeLayout extends ViewGroup {
 
             if (xvel > velocityThreshold) {
                 int left = centerView.getLeft() < 0 ? child.getLeft() - centerView.getLeft() : getWidth();
-                startScrollAnimation(child, clampMoveRight(child, left), true, true);
+                boolean moveToOriginal = centerView.getLeft() < 0;
+                startScrollAnimation(child, clampMoveRight(child, left), !moveToOriginal, true);
                 return true;
             }
 
@@ -419,8 +421,9 @@ public class SwipeLayout extends ViewGroup {
             LayoutParams lp = getLayoutParams(leftView);
 
             if (dx > 0 && xvel >= 0 && leftViewClampReached(lp)) {
-                if (swipeListener != null)
+                if (swipeListener != null) {
                     swipeListener.onSwipeClampReached(SwipeLayout.this, true);
+                }
                 return true;
             }
 
@@ -448,7 +451,8 @@ public class SwipeLayout extends ViewGroup {
         private boolean onMoveLeftReleased(View child, int dx, float xvel) {
             if (-xvel > velocityThreshold) {
                 int left = centerView.getLeft() > 0 ? child.getLeft() - centerView.getLeft() : -getWidth();
-                startScrollAnimation(child, clampMoveLeft(child, left), true, false);
+                boolean moveToOriginal = centerView.getLeft() > 0;
+                startScrollAnimation(child, clampMoveLeft(child, left), !moveToOriginal, false);
                 return true;
             }
 
@@ -461,8 +465,9 @@ public class SwipeLayout extends ViewGroup {
             LayoutParams lp = getLayoutParams(rightView);
 
             if (dx < 0 && xvel <= 0 && rightViewClampReached(lp)) {
-                if (swipeListener != null)
+                if (swipeListener != null) {
                     swipeListener.onSwipeClampReached(SwipeLayout.this, false);
+                }
                 return true;
             }
 
