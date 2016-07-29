@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.rambler.libs.swipe_layout.SwipeLayout;
 
@@ -69,6 +70,28 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.rightView.setClickable(true);
                 viewHolder.rightView.setOnClickListener(onClick);
             }
+
+            viewHolder.swipeLayout.setOnSwipeListener(new SwipeLayout.OnSwipeListener() {
+                @Override
+                public void onBeginSwipe(SwipeLayout swipeLayout, boolean moveToRight) {
+                }
+
+                @Override
+                public void onSwipeClampReached(SwipeLayout swipeLayout, boolean moveToRight) {
+                    Toast.makeText(swipeLayout.getContext(),
+                            (moveToRight ?  "Left" : "Right") + " clamp reached",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+
+                @Override
+                public void onLeftStickyEdge(SwipeLayout swipeLayout, boolean moveToRight) {
+                }
+
+                @Override
+                public void onRightStickyEdge(SwipeLayout swipeLayout, boolean moveToRight) {
+                }
+            });
 
             return new ViewHolder(itemView);
         }
