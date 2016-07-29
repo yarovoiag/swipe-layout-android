@@ -538,6 +538,7 @@ public class SwipeLayout extends ViewGroup {
                 view.setEnabled(entry.getValue());
             }
         }
+        hackedParents.clear();
     }
 
     @Override
