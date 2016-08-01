@@ -15,7 +15,7 @@ or Maven:
 <dependency>
   <groupId>ru.rambler.android</groupId>
   <artifactId>swipe-layout</artifactId>
-  <version>1.0.9</version>
+  <version>1.0.11</version>
   <type>pom</type>
 </dependency>
 ```
