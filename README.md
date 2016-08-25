@@ -8,18 +8,8 @@ Flexible Android Widget
 
 Download via Gradle:
 ```groovy
-compile 'ru.rambler.android:swipe-layout:1.0.11'
+compile 'ru.rambler.android:swipe-layout:1.0.12'
 ```
-or Maven:
-```xml
-<dependency>
-  <groupId>ru.rambler.android</groupId>
-  <artifactId>swipe-layout</artifactId>
-  <version>1.0.11</version>
-  <type>pom</type>
-</dependency>
-```
-
 ## Usage
 
 **Swipe Layout** may contain up to 3 children with **left**, **right** or **center** gravity attributes.
