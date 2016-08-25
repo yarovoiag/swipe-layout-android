@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(manager);
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+
+        private final int COUNT = 30;
+        private final int[] itemsOffset = new int[COUNT];
 
         @Override
         public int getItemViewType(int position) {
@@ -79,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSwipeClampReached(SwipeLayout swipeLayout, boolean moveToRight) {
                     Toast.makeText(swipeLayout.getContext(),
-                            (moveToRight ?  "Left" : "Right") + " clamp reached",
+                            (moveToRight ? "Left" : "Right") + " clamp reached",
                             Toast.LENGTH_SHORT)
                             .show();
+                    viewHolder.textViewPos.setText("TADA!");
                 }
 
                 @Override
@@ -99,11 +104,24 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.textViewPos.setText("#" + (position + 1));
+            holder.swipeLayout.setOffset(itemsOffset[position]);
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(ViewHolder holder) {
+            if (holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                itemsOffset[holder.getAdapterPosition()] = holder.swipeLayout.getOffset();
+            }
+        }
+
+        @Override
+        public void onViewRecycled(ViewHolder holder) {
+            super.onViewRecycled(holder);
         }
 
         @Override
         public int getItemCount() {
-            return 30;
+            return COUNT;
         }
 
         static class ViewHolder extends RecyclerView.ViewHolder {
@@ -113,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             private final View rightView;
             private final View leftView;
 
-            public ViewHolder(View itemView) {
+            ViewHolder(View itemView) {
                 super(itemView);
                 textViewPos = (TextView) itemView.findViewById(R.id.text_view_pos);
                 swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe_layout);
