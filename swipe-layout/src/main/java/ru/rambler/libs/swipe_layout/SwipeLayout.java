@@ -36,6 +36,7 @@ public class SwipeLayout extends ViewGroup {
     private OnSwipeListener swipeListener;
     private WeakReference<ObjectAnimator> resetAnimator;
     private final Map<View, Boolean> hackedParents = new WeakHashMap<>();
+    private boolean swipeEnabled;
 
     private static final int TOUCH_STATE_WAIT = 0;
     private static final int TOUCH_STATE_SWIPE = 1;
@@ -64,6 +65,7 @@ public class SwipeLayout extends ViewGroup {
         dragHelper = ViewDragHelper.create(this, 1f, dragCallback);
         velocityThreshold = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, VELOCITY_THRESHOLD, getResources().getDisplayMetrics());
         touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        swipeEnabled = true;
     }
 
     public void setOnSwipeListener(OnSwipeListener swipeListener) {
@@ -125,6 +127,17 @@ public class SwipeLayout extends ViewGroup {
      */
     public void setOffset(int offset) {
         offsetChildren(null, offset - centerView.getLeft());
+    }
+
+    public boolean isSwipeEnabled() {
+        return swipeEnabled;
+    }
+
+    /**
+     * enable or disable swipe gesture handling
+     */
+    public void setSwipeEnabled(boolean enabled) {
+        this.swipeEnabled = enabled;
     }
 
     @Override
@@ -548,11 +561,17 @@ public class SwipeLayout extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return dragHelper.shouldInterceptTouchEvent(event);
+        return swipeEnabled
+                ? dragHelper.shouldInterceptTouchEvent(event)
+                : super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        boolean defaultResult = super.onTouchEvent(event);
+        if (!swipeEnabled) {
+            return defaultResult;
+        }
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
@@ -640,6 +659,7 @@ public class SwipeLayout extends ViewGroup {
         }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static class LayoutParams extends ViewGroup.LayoutParams {
 
         public static final int LEFT = -1;
