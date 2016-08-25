@@ -119,14 +119,16 @@ public class SwipeLayout extends ViewGroup {
      * get horizontal offset from initial position
      */
     public int getOffset() {
-        return centerView.getLeft();
+        return centerView == null ? 0 : centerView.getLeft();
     }
 
     /**
      * set horizontal offset from initial position
      */
     public void setOffset(int offset) {
-        offsetChildren(null, offset - centerView.getLeft());
+        if (centerView != null) {
+            offsetChildren(null, offset - centerView.getLeft());
+        }
     }
 
     public boolean isSwipeEnabled() {
@@ -189,8 +191,6 @@ public class SwipeLayout extends ViewGroup {
     private void layoutChildren(int left, int top, int right, int bottom) {
         final int count = getChildCount();
 
-        final int parentLeft = getPaddingLeft();
-
         final int parentTop = getPaddingTop();
 
         for (int i = 0; i < count; i++) {
@@ -228,20 +228,16 @@ public class SwipeLayout extends ViewGroup {
 
                 switch (orientation) {
                     case LayoutParams.LEFT:
-                        if (centerView != null)
-                            childLeft = centerView.getLeft() - width;
-                        else childLeft = parentLeft;
+                        childLeft = centerView.getLeft() - width;
                         break;
 
                     case LayoutParams.RIGHT:
-                        if (centerView != null)
-                            childLeft = centerView.getRight();
-                        else childLeft = parentLeft;
+                        childLeft = centerView.getRight();
                         break;
 
                     case LayoutParams.CENTER:
                     default:
-                        childLeft = parentLeft;
+                        childLeft = child.getLeft();
                         break;
                 }
                 childTop = parentTop;
