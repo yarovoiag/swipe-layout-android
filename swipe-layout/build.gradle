@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
-def version = "1.0.12"
-def code = 10012
+def version = "1.0.13"
+def code = 10013
 
 android {
     compileSdkVersion 24
@@ -25,7 +25,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-core-ui:24.2.0'
+    compile 'com.android.support:support-core-ui:24.2.1'
 }
 
 task sourcesJar(type: Jar) {
