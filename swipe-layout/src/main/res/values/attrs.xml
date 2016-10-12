@@ -28,5 +28,14 @@
             <enum name="no" value="-1"/>
         </attr>
 
+        <!--enable or disable swipe gestures -->
+        <attr name="swipe_enabled" format="boolean"/>
+
+        <!--enable or disable swipe gestures from left side-->
+        <attr name="left_swipe_enabled" format="boolean"/>
+
+        <!--enable or disable swipe gestures from right side-->
+        <attr name="right_swipe_enabled" format="boolean"/>
+
     </declare-styleable>
 </resources>
