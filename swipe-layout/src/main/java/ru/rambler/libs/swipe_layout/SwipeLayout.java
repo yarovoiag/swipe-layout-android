@@ -36,7 +36,8 @@ public class SwipeLayout extends ViewGroup {
     private OnSwipeListener swipeListener;
     private WeakReference<ObjectAnimator> resetAnimator;
     private final Map<View, Boolean> hackedParents = new WeakHashMap<>();
-    private boolean swipeEnabled;
+    private boolean leftSwipeEnabled = true;
+    private boolean rightSwipeEnabled = true;
 
     private static final int TOUCH_STATE_WAIT = 0;
     private static final int TOUCH_STATE_SWIPE = 1;
@@ -48,24 +49,39 @@ public class SwipeLayout extends ViewGroup {
 
     public SwipeLayout(Context context) {
         super(context);
-        init();
+        init(context, null);
     }
 
     public SwipeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
     public SwipeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
+    private void init(Context context, AttributeSet attrs) {
         dragHelper = ViewDragHelper.create(this, 1f, dragCallback);
         velocityThreshold = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, VELOCITY_THRESHOLD, getResources().getDisplayMetrics());
         touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        swipeEnabled = true;
+
+        if (attrs != null ) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeLayout);
+            if (a.hasValue(R.styleable.SwipeLayout_swipe_enabled)) {
+                leftSwipeEnabled = a.getBoolean(R.styleable.SwipeLayout_swipe_enabled, true);
+                rightSwipeEnabled = a.getBoolean(R.styleable.SwipeLayout_swipe_enabled, true);
+            }
+            if (a.hasValue(R.styleable.SwipeLayout_left_swipe_enabled)) {
+                leftSwipeEnabled = a.getBoolean(R.styleable.SwipeLayout_left_swipe_enabled, true);
+            }
+            if (a.hasValue(R.styleable.SwipeLayout_right_swipe_enabled)) {
+                rightSwipeEnabled = a.getBoolean(R.styleable.SwipeLayout_right_swipe_enabled, true);
+            }
+
+            a.recycle();
+        }
     }
 
     public void setOnSwipeListener(OnSwipeListener swipeListener) {
@@ -132,14 +148,45 @@ public class SwipeLayout extends ViewGroup {
     }
 
     public boolean isSwipeEnabled() {
-        return swipeEnabled;
+        return leftSwipeEnabled || rightSwipeEnabled;
+    }
+
+    public boolean isLeftSwipeEnabled() {
+        return leftSwipeEnabled;
+    }
+
+    public boolean isRightSwipeEnabled() {
+        return rightSwipeEnabled;
     }
 
     /**
      * enable or disable swipe gesture handling
+     *
+     * @param enabled
      */
     public void setSwipeEnabled(boolean enabled) {
-        this.swipeEnabled = enabled;
+        this.leftSwipeEnabled = enabled;
+        this.rightSwipeEnabled = enabled;
+    }
+
+    /**
+     * Enable or disable swipe gesture from left side
+     *
+     * @param leftSwipeEnabled
+     */
+
+    public void setLeftSwipeEnabled(boolean leftSwipeEnabled) {
+        this.leftSwipeEnabled = leftSwipeEnabled;
+    }
+
+    /**
+     * Enable or disable swipe gesture from right side
+     *
+     * @param rightSwipeEnabled
+     */
+
+    public void setRightSwipeEnabled(boolean rightSwipeEnabled) {
+        this.rightSwipeEnabled = rightSwipeEnabled;
     }
 
     @Override
@@ -557,7 +604,7 @@ public class SwipeLayout extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return swipeEnabled
+        return leftSwipeEnabled || rightSwipeEnabled
                 ? dragHelper.shouldInterceptTouchEvent(event)
                 : super.onInterceptTouchEvent(event);
     }
@@ -565,7 +612,7 @@ public class SwipeLayout extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean defaultResult = super.onTouchEvent(event);
-        if (!swipeEnabled) {
+        if (!isSwipeEnabled()) {
             return defaultResult;
         }
 
@@ -580,6 +627,10 @@ public class SwipeLayout extends ViewGroup {
                 if (touchState == TOUCH_STATE_WAIT) {
                     float dx = Math.abs(event.getX() - touchX);
                     float dy = Math.abs(event.getY() - touchY);
+
+                    boolean isLeftToRight = (event.getX() - touchX) > 0;
+
+                    if ((isLeftToRight && !leftSwipeEnabled) || (!isLeftToRight && !rightSwipeEnabled)) return defaultResult;
 
                     if (dx >= touchSlop || dy >= touchSlop) {
                         touchState = dy == 0 || dx / dy > 1f ? TOUCH_STATE_SWIPE : TOUCH_STATE_SKIP;

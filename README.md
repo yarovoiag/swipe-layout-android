@@ -14,6 +14,19 @@ compile 'ru.rambler.android:swipe-layout:1.0.13'
 
 **Swipe Layout** may contain up to 3 children with **left**, **right** or **center** gravity attributes.
 
+You could disable swipe completely calling method `setSwipeEnabled(false)` or using XML-attribute `'app:swipe_enabled="false'`
+
+To disable swipe from one of the side you could use methods `setLeftSwipeEnabled(false)` and `setRightSwipeEnabled(false)` or via XML:
+
+```xml
+<ru.rambler.libs.swipe_layout.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height"
+    app:left_swipe_enabled="false"
+    app:right_swipe_enabled="true"/>
+```
+
 Full list of widget attributes can be found [here](https://github.com/rambler-digital-solutions/swipe-layout-android/blob/develop/swipe-layout/src/main/res/values/attrs.xml).
 
 ```xml
